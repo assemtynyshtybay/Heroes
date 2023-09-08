@@ -1,0 +1,34 @@
+name: Deploy React App
+on: push
+jobs:
+	test:
+		runs-on: ubuntu-latest
+		steps:
+			- name: Get repository code
+				uses: actions/checkout@v3
+			- name: ins dependecies
+				run: npm ci
+			- name: test app
+				run: npm run test
+	lint:
+		runs-on: ubuntu-latest
+		needs: test
+		steps:
+			- name: Get repository code
+				uses: actions/checkout@v3
+			- name: ins dependecies
+				run: npm ci
+			- name: lint app
+				run: npm run lint
+	build:
+		runs-on: ubuntu-latest
+		needs: lint // билд запуститься если линт успешен
+		steps:
+			- name: Get repository code
+				uses: actions/checkout@v3
+			- name: ins dependecies
+				run: npm ci
+			- name: build app
+				run: npm run build
+			- name: deploy
+				run: echo deploying...
